@@ -39,9 +39,13 @@
                 <p class="h3"><b>{{book.title}}</b></p>
                 <p class="lead">{{book.author}}</p>
             </div>
-            <button type="button" class="btn btn-primary" style="background-color: rgb(255, 77, 77); border-color: rgb(255, 77, 77);">
-                Delete
-            </button>
+            <form action="{% url "reading_list" %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="book-pk" value="{{book.pk}}">
+                <button type="submit" class="btn btn-primary" style="background-color: rgb(255, 77, 77); border-color: rgb(255, 77, 77);">
+                    Delete
+                </button>
+            </form>
         </div>
     {% endfor %}
 
