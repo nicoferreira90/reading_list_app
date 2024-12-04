@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from django.views.decorators.http import require_http_methods
+from django.db.models import Q
 
 from .models import Book
 
@@ -24,3 +25,8 @@ def delete_book(request, pk):
     book_list = Book.objects.all()
     return render(request, 'reading/book_list.html', {'book_list': book_list})
 
+def book_search(request):
+    search_text = request.POST.get("search")
+    book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) )
+
+    return render(request, 'reading/book_list.html', {'book_list': book_search_list})

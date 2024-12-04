@@ -40,6 +40,10 @@
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <h1 class="m-4">My Reading List</h1>
 
+    <div>
+        {% include "reading/search.html" %}
+    </div>
+
     <div id="book_list">
         {% include "reading/book_list.html" %}
     </div>
