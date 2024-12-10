@@ -11,22 +11,27 @@ class ReadingListView(ListView):
     template_name = "reading/reading_page.html"
     context_object_name = "book_list"
 
+    def get_queryset(self):
+        """Override the get_queryset method so that ReadingListView only displays books registered by the current user."""
+        return Book.objects.filter(book_owner=self.request.user)
+
+
 def add_book(request):
     title = request.POST.get('book-title')
     author = request.POST.get('book-author')
-    Book.objects.create(title=title, author=author)
+    Book.objects.create(title=title, author=author, book_owner=request.user)
 
-    book_list = Book.objects.all()
+    book_list = Book.objects.filter(book_owner=request.user)
     return render(request, 'reading/book_list.html', {'book_list': book_list})
 
 @require_http_methods(['DELETE'])
 def delete_book(request, pk):
     Book.objects.filter(pk=pk).delete()
-    book_list = Book.objects.all()
+    book_list = Book.objects.filter(book_owner=request.user)
     return render(request, 'reading/book_list.html', {'book_list': book_list})
 
 def book_search(request):
     search_text = request.POST.get("search")
-    book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) )
+    book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) ).filter(book_owner=request.user)
 
     return render(request, 'reading/book_list.html', {'book_list': book_search_list})
