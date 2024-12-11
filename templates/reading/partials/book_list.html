@@ -1,22 +1,35 @@
 {% if book_list %}
     {% for book in book_list %}
-            <div class="book-container container-fluid d-flex justify-content-between align-items-center" style="width: 60%;">
-                <div>
+
+    <div class="d-flex justify-content-center align-items-center">
+    <div class="card bg-light mb-3" style="width: 70%;">
+        <div class="card-body">
+            <div class="row">
+                <!-- Text Section (Book Title and Author) -->
+                <div class="col-10">
                     <p class="h3"><b>{{book.title}}</b></p>
                     <p class="lead">{{book.author}}</p>
                 </div>
-                <form action="{% url "reading_page" %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="book-pk" value="{{book.pk}}">
-                    <button hx-delete="{% url "delete_book" book.pk %}" hx-target="#book_list" hx-confirm="Are you sure you wish to delete this book?"
-                     type="submit" class="btn btn-primary" style="background-color: rgb(255, 77, 77); border-color: rgb(255, 77, 77);">
-                        Delete
-                    </button>
-                </form>
+                <!-- Button Section (Delete Button) -->
+                <div class="col-2 text-end">
+                    <form action="{% url 'reading_page' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="book-pk" value="{{book.pk}}">
+                        <button hx-delete="{% url 'delete_book' book.pk %}" hx-target="#book_list" hx-confirm="Are you sure you wish to delete this book?"
+                            type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </div>
             </div>
+        </div>
+    </div>
+    </div>
+
+
     {% endfor %}
 {% else %}
-<div class="book-container container-fluid d-flex justify-content-between align-items-center">
-    <p class="lead">Your book list is empty.</p>
+<div class="card bg-light mb-3" style="max-width: 70%;">
+    <h3>Your book list is empty.</h3>
 </div>
 {% endif %}

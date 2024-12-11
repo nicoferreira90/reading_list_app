@@ -1,3 +1,6 @@
+
+{% load static %}
+
 <head>
 
     {% comment %} HTMX CDN {% endcomment %}
@@ -13,25 +16,11 @@
        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+
     <style>
         h1, h2 {
             text-align: center;
-            font-family: "Helvetica";
-        }
-
-        .book-container {
-            font-family: "Helvetica";
-            width: 30%;
-            background-color: rgb(235, 235, 235);
-            border-radius: 5px;
-            text-align: left;
-            padding: 10px; /* Adjust the padding for more space inside */
-            margin-bottom: -1px; /* Remove the gap between items */
-            border-bottom: 2px solid rgba(0, 0, 0, 0.5); /* Thin border between items */
-        }
-
-        .book-container:last-child {
-            border-bottom: none; /* Remove border on the last item */
         }
 
     </style>
@@ -39,7 +28,8 @@
 
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 
-    <nav class="navbar navbar-expand-lg bg-dark bg-dark">
+
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid" style="width: 90%;">
           <a class="navbar-brand mx-3" href="{% url "reading_page" %}" style="color: white;">MyReadingList</a>
           <button class="navbar-toggler" type="button" style="background-color: white;" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +64,7 @@
                 </div>
               {% else %}
                 <div class="auth-buttons">
-                    <a href="{% url 'account_login' %}" class="btn btn-primary me-2 border border-dark">Log In</a>
+                    <a href="{% url 'account_login' %}" class="btn btn-info me-2 border border-dark">Log In</a>
                     <a href="{% url 'account_signup' %}" class="btn btn-success border border-dark">Sign Up</a>
                 </div>
               {% endif %}

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-7">
                 <h1 class="m-4">My Reading List</h1>
 
                 <div>
@@ -14,10 +14,14 @@
                     {% include "reading/partials/book_list.html" %}
                 </div>
 
+                
+            </div>
+            <div class="col-5">
+
                 <h2 class="m-4 text-center">What do you want to read?</h2>
 
                 <div class="d-flex justify-content-center align-items-center">
-                    <form action="{% url 'reading_page' %}" method="post" class="d-flex justify-content-center align-items-center" style="width: 70%;">
+                    <form action="{% url 'reading_page' %}" method="post" class="d-flex justify-content-center align-items-center" style="width: 90%;">
                         {% csrf_token %}
                         <input type="text" id="book-title" name="book-title" placeholder="title" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
                         <input type="text" id="book-author" name="book-author" placeholder="author" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
@@ -26,8 +30,7 @@
                         </button>
                     </form>
                 </div>
-            </div>
-            <div class="col">
+
                 <h1 class="m-4">Currently Reading...</h1>
 
                 {% include "reading/partials/currently_reading.html" %}

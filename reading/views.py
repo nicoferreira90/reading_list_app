@@ -34,6 +34,6 @@ def delete_book(request, pk):
 
 def book_search(request):
     search_text = request.POST.get("search")
-    book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) ).filter(book_owner=request.user)
+    book_search_list = Book.objects.filter( Q(title__startswith=search_text) | Q(author__startswith=search_text) ).filter(book_owner=request.user)
 
     return render(request, 'reading/partials/book_list.html', {'book_list': book_search_list})
