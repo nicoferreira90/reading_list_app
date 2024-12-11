@@ -21,7 +21,7 @@
                         {% csrf_token %}
                         <input type="text" id="book-title" name="book-title" placeholder="title" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
                         <input type="text" id="book-author" name="book-author" placeholder="author" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
-                        <button hx-post="{% url 'add_book' %}" hx-target="#book_list" type="submit" class="btn btn-primary" style="background-color: rgb(51, 102, 0); border-color: rgb(51, 102, 0); margin: 2px;">
+                        <button hx-post="{% url 'add_book' %}" hx-target="#book_list" type="submit" class="btn btn-success" style="margin: 2px;">
                             Add Book
                         </button>
                     </form>
