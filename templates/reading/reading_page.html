@@ -1,27 +1,38 @@
-{% extends "reading/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1 class="m-4">My Reading List</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1 class="m-4">My Reading List</h1>
 
-    <div>
-        {% include "reading/search.html" %}
-    </div>
+                <div>
+                    {% include "reading/partials/search.html" %}
+                </div>
 
-    <div id="book_list">
-        {% include "reading/book_list.html" %}
-    </div>
+                <div id="book_list">
+                    {% include "reading/partials/book_list.html" %}
+                </div>
 
-    <h2 class="m-4 text-center">What do you want to read?</h2>
+                <h2 class="m-4 text-center">What do you want to read?</h2>
 
-    <div class="d-flex justify-content-center align-items-center">
-        <form action="{% url 'reading_page' %}" method="post" class="d-flex align-items-center">
-            {% csrf_token %}
-            <input type="text" id="book-title" name="book-title" placeholder="title" class="form-control mr-2" required style="max-width: 250px; margin: 2px">
-            <input type="text" id="book-author" name="book-author" placeholder="author" class="form-control mr-2" required style="max-width: 250px; margin: 2px">
-            <button hx-post="{% url 'add_book' %}" hx-target="#book_list" type="submit" class="btn btn-primary" style="background-color: rgb(51, 102, 0); border-color: rgb(51, 102, 0); margin: 2px">
-                Add
-            </button>
-        </form>
+                <div class="d-flex justify-content-center align-items-center">
+                    <form action="{% url 'reading_page' %}" method="post" class="d-flex justify-content-center align-items-center" style="width: 70%;">
+                        {% csrf_token %}
+                        <input type="text" id="book-title" name="book-title" placeholder="title" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
+                        <input type="text" id="book-author" name="book-author" placeholder="author" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
+                        <button hx-post="{% url 'add_book' %}" hx-target="#book_list" type="submit" class="btn btn-primary" style="background-color: rgb(51, 102, 0); border-color: rgb(51, 102, 0); margin: 2px;">
+                            Add Book
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <h1 class="m-4">Currently Reading...</h1>
+
+                {% include "reading/partials/currently_reading.html" %}
+            </div>
+        </div>
     </div>
 {% endblock content %}
 

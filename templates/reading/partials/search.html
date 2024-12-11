@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center align-items-center">
-    <form action="{% url 'reading_page' %}" method="post" class="d-flex align-items-center">
+    <form action="{% url 'reading_page' %}" method="post" class="d-flex align-items-center" style="width: 50%;">
         {% csrf_token %}
-        <p class="lead mb-0 mr-2">Search:</p>
+        <p class="lead mb-0" style="margin-right: 3%;">Search:</p>
         <input type="text"
                 hx-post="{% url "book_search" %}"
                 hx-target="#book_list"
