@@ -1,4 +1,7 @@
 {% if book_list %}
+
+    {% comment %} <form class="sortable" hx-trigger="end" hx-post="/sort"> {% endcomment %}
+
     {% for book in book_list %}
 
     <div class="card bg-light mb-2" style="width: 100%;">
@@ -27,8 +30,13 @@
 
 
     {% endfor %}
+
+    {% comment %} </form> {% endcomment %}
+
 {% else %}
-<div class="card bg-light mb-3" style="max-width: 70%;">
-    <h3>Your book list is empty.</h3>
-</div>
+
+    <div class="card bg-light mb-3" style="max-width: 70%;">
+        <h3>Your book list is empty.</h3>
+    </div>
+
 {% endif %}
