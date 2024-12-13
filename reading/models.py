@@ -6,6 +6,10 @@ class Book(models.Model):
     title = models.CharField(max_length=50)
     author = models.CharField(max_length=50)
     book_owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="books")
+    order = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
         return self.title

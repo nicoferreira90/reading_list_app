@@ -1,6 +1,6 @@
 {% if book_list %}
 
-    <form class="sortable" hx-trigger="end" hx-post="/sort" hx-target="#book_list">
+    <form class="sortable" hx-trigger="end" hx-post="{% url "book_sort" %}" hx-target="#book_list">
 
     {% for book in book_list %}
 
@@ -17,7 +17,7 @@
                     <!-- Button Section (Delete Button) -->
                     <div class="col-2 text-end">
                         <div class="row">
-                            <h4><b>#1</b></h4>
+                            <h4><b>#{{book.order}}</b></h4>
                         </div>
                         <div class="row">
                             <button hx-delete="{% url 'delete_book' book.pk %}" hx-target="#book_list" hx-confirm="Are you sure you wish to delete this book?"
@@ -38,7 +38,7 @@
 
 {% else %}
 
-    <div class="card bg-light mb-3" style="max-width: 70%;">
+    <div class="card bg-light mb-3" style="width: 100%; padding: 2%;">
         <h3>Your book list is empty.</h3>
     </div>
 

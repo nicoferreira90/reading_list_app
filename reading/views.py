@@ -21,7 +21,13 @@ class ReadingListView(LoginRequiredMixin, ListView):
 def add_book(request):
     title = request.POST.get('book-title')
     author = request.POST.get('book-author')
-    Book.objects.create(title=title, author=author, book_owner=request.user)
+
+    if request.user.books:
+        new_book_order = len(Book.objects.filter(book_owner=request.user))+1
+    else:
+        new_book_order = 1
+
+    Book.objects.create(title=title, author=author, book_owner=request.user, order=new_book_order)
 
     book_list = Book.objects.filter(book_owner=request.user)
     return render(request, 'reading/partials/book_list.html', {'book_list': book_list})
@@ -37,3 +43,14 @@ def book_search(request):
     book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) ).filter(book_owner=request.user)
 
     return render(request, 'reading/partials/book_list.html', {'book_list': book_search_list})
+
+def book_sort(request):
+    book_order = request.POST.getlist("book_order")
+    index = 1
+    for book in book_order:
+        this_book = Book.objects.get(pk=book)
+        this_book.order = index
+        this_book.save()
+        index += 1
+    
+    return render(request, "reading/partials/book_list.html", {"book_list": Book.objects.filter(book_owner=request.user)})
