@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,6 +17,9 @@ class ReadingListView(LoginRequiredMixin, ListView):
         """Override the get_queryset method so that ReadingListView only displays books registered by the current user."""
         return Book.objects.filter(book_owner=self.request.user)
 
+class BookUpdateView(LoginRequiredMixin, UpdateView):
+    model = Book
+    template_name = "reading/partials/book_detail.html"
 
 def add_book(request):
     title = request.POST.get('book-title')
