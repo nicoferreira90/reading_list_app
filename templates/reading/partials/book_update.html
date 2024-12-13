@@ -1,0 +1,22 @@
+{% load crispy_forms_tags %}
+
+<div style="display: flex; justify-content: center; align-items: center; height: 60%;">
+    <div class="card bg-light mb-1" style="max-width: 20rem; padding: 0.5rem;">
+        <div class="card-header"><h2>{{book.title}}</h2></div>
+        <div class="card-body">
+            {% if book.cover  %}
+            <div style="display: flex; justify-content: center;">
+                <img class="bookcover mb-2" src="{{ book.cover.url}}" alt="{{ book.title }}" style="width: 60%;">
+            </div>
+            {% else %}
+            <h3>No book cover yet has been uploaded yet.</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<form method="post" style="margin-top: 0;">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary border border-dark" type="submit" value="Update">
+</form>

@@ -18,24 +18,10 @@
 
                 
             </div>
-            <div class="col-5">
+            <div id="right_page" class="col-5" style="height: 700px;">
 
-                <h2 class="m-4 text-center">What do you want to read?</h2>
+                {% include "reading/partials/right_page_content.html" %}
 
-                <div class="d-flex justify-content-center align-items-center">
-                    <form action="{% url 'reading_page' %}" method="post" class="d-flex justify-content-center align-items-center" style="width: 90%;">
-                        {% csrf_token %}
-                        <input type="text" id="book-title" name="book-title" placeholder="title" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
-                        <input type="text" id="book-author" name="book-author" placeholder="author" class="form-control mr-2" required style="max-width: 250px; margin: 2px;">
-                        <button hx-post="{% url 'add_book' %}" hx-target="#book_list" type="submit" class="btn btn-success" style="margin: 2px;">
-                            Add Book
-                        </button>
-                    </form>
-                </div>
-
-                <h1 class="m-4">Currently Reading...</h1>
-
-                {% include "reading/partials/currently_reading.html" %}
             </div>
         </div>
     </div>

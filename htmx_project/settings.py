@@ -150,3 +150,6 @@ LOGIN_REDIRECT_URL = "reading_page"
 LOGOUT_REDIRECT_URL = "account_login"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

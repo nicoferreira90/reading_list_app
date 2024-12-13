@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Book
+from .forms import BookForm
 
 
 class ReadingListView(LoginRequiredMixin, ListView):
@@ -19,7 +20,10 @@ class ReadingListView(LoginRequiredMixin, ListView):
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
-    template_name = "reading/partials/book_detail.html"
+    form_class = BookForm
+    template_name = "reading/partials/book_update.html"
+    login_url = "account_login"
+    context_object_name = "book"
 
 def add_book(request):
     title = request.POST.get('book-title')

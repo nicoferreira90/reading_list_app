@@ -29,7 +29,7 @@
                         </div>
                         <div class="row" style="height: 50%;">
                             <div class="col d-flex justify-content-between align-items-center">
-                                <button class="btn btn-primary">
+                                <button hx-get="{% url 'book_update' book.pk %}" hx-target="#right_page" class="btn btn-primary">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <button hx-delete="{% url 'delete_book' book.pk %}" hx-target="#book_list" hx-confirm="Are you sure you wish to delete this book?"
