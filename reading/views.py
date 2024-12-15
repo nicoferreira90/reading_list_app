@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
@@ -24,6 +25,15 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "reading/partials/book_update.html"
     login_url = "account_login"
     context_object_name = "book"
+    success_url = reverse_lazy('reading_page')
+
+    def form_valid(self, form):
+        # Save the updated book information
+        form.save()
+        print("form valid")
+        
+        # If not HTMX, fall back to the normal redirect behavior (like a full-page redirect)
+        return super().form_valid(form)
 
 def add_book(request):
     title = request.POST.get('book-title')
@@ -61,3 +71,7 @@ def book_sort(request):
         index += 1
     
     return render(request, "reading/partials/book_list.html", {"book_list": Book.objects.filter(book_owner=request.user)})
+
+def update_done(request, pk):
+    context = {"book_list": Book.objects.filter(book_owner=request.user)}
+    return render(request, "reading/partials/reading_page.html", context=context)
