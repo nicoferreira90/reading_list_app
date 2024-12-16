@@ -25,15 +25,15 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "reading/partials/book_update.html"
     login_url = "account_login"
     context_object_name = "book"
-    success_url = reverse_lazy('reading_page')
 
     def form_valid(self, form):
         # Save the updated book information
         form.save()
         print("form valid")
         
-        # If not HTMX, fall back to the normal redirect behavior (like a full-page redirect)
-        return super().form_valid(form)
+        return render(self.request,
+                        'reading/partials/reading_page_content_partial.html',
+                        {'book_list': Book.objects.filter(book_owner=self.request.user)})
 
 def add_book(request):
     title = request.POST.get('book-title')
@@ -73,5 +73,4 @@ def book_sort(request):
     return render(request, "reading/partials/book_list_partial.html", {"book_list": Book.objects.filter(book_owner=request.user)})
 
 def update_done(request, pk):
-    context = {"book_list": Book.objects.filter(book_owner=request.user)}
-    return render(request, "reading/partials/reading_page.html", context=context)
+    pass
