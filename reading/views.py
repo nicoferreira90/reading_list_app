@@ -47,19 +47,19 @@ def add_book(request):
     Book.objects.create(title=title, author=author, book_owner=request.user, order=new_book_order)
 
     book_list = Book.objects.filter(book_owner=request.user)
-    return render(request, 'reading/partials/book_list.html', {'book_list': book_list})
+    return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_list})
 
 @require_http_methods(['DELETE'])
 def delete_book(request, pk):
     Book.objects.filter(pk=pk).delete()
     book_list = Book.objects.filter(book_owner=request.user)
-    return render(request, 'reading/partials/book_list.html', {'book_list': book_list})
+    return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_list})
 
 def book_search(request):
     search_text = request.POST.get("search")
     book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) ).filter(book_owner=request.user)
 
-    return render(request, 'reading/partials/book_list.html', {'book_list': book_search_list})
+    return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_search_list})
 
 def book_sort(request):
     book_order = request.POST.getlist("book_order")
@@ -70,7 +70,7 @@ def book_sort(request):
         this_book.save()
         index += 1
     
-    return render(request, "reading/partials/book_list.html", {"book_list": Book.objects.filter(book_owner=request.user)})
+    return render(request, "reading/partials/book_list_partial.html", {"book_list": Book.objects.filter(book_owner=request.user)})
 
 def update_done(request, pk):
     context = {"book_list": Book.objects.filter(book_owner=request.user)}
