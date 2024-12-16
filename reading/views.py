@@ -71,6 +71,3 @@ def book_sort(request):
         index += 1
     
     return render(request, "reading/partials/book_list_partial.html", {"book_list": Book.objects.filter(book_owner=request.user)})
-
-def update_done(request, pk):
-    pass
