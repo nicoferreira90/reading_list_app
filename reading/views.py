@@ -43,7 +43,8 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
         
         return render(self.request,
                         'reading/partials/reading_page_content_partial.html',
-                        {'book_list': Book.objects.filter(book_owner=self.request.user)})
+                        {'book_list': Book.objects.filter(book_owner=self.request.user),
+                         "top_book": Book.objects.filter(book_owner=self.request.user).first(),})
 
 @login_required
 def add_book(request):
@@ -57,15 +58,32 @@ def add_book(request):
 
     Book.objects.create(title=title, author=author, book_owner=request.user, order=new_book_order)
 
-    book_list = Book.objects.filter(book_owner=request.user)
-    return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_list})
+    context = {
+        "top_book": Book.objects.filter(book_owner=request.user).first(),
+        "book_list": Book.objects.filter(book_owner=request.user),
+    }
+    
+    return render(request, "reading/partials/reading_page_content_partial.html", context)
 
 @require_http_methods(['DELETE'])
 @login_required
 def delete_book(request, pk):
     Book.objects.filter(pk=pk).delete()
+
+    # here we proceed to re-order the remaining books from 1 to n
+    index = 1
     book_list = Book.objects.filter(book_owner=request.user)
-    return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_list})
+    for book in book_list:
+        book.order = index
+        book.save()
+        index += 1
+    
+    context = {
+        "top_book": Book.objects.filter(book_owner=request.user).first(),
+        "book_list": book_list,
+    }
+    
+    return render(request, "reading/partials/reading_page_content_partial.html", context)
 
 @login_required
 def book_search(request):
@@ -89,4 +107,4 @@ def book_sort(request):
         "book_list": Book.objects.filter(book_owner=request.user),
     }
     
-    return render(request, "reading/partials/book_list_partial.html", context)
+    return render(request, "reading/partials/reading_page_content_partial.html", context)

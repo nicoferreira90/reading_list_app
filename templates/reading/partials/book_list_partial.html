@@ -1,6 +1,6 @@
 {% if book_list %}
 
-    <form class="sortable" hx-post="{% url "book_sort" %}" hx-target="#book_list" hx-trigger="end">
+    <form class="sortable" hx-post="{% url "book_sort" %}" hx-target="#reading_page_row" hx-trigger="end">
 
     {% for book in book_list %}
 
@@ -32,7 +32,7 @@
                                 <button hx-get="{% url 'book_update' book.pk %}" hx-target="#right_page" class="btn btn-primary">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button hx-delete="{% url 'delete_book' book.pk %}" hx-target="#book_list" hx-confirm="Are you sure you wish to delete this book?"
+                                <button hx-delete="{% url 'delete_book' book.pk %}" hx-target="#reading_page_row" hx-confirm="Are you sure you wish to delete this book?"
                                     type="submit" class="btn btn-danger" >
                                     <i class="bi bi-trash3"></i>
                                 </button>
