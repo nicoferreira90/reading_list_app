@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -18,6 +19,15 @@ class ReadingListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         """Override the get_queryset method so that ReadingListView only displays books registered by the current user."""
         return Book.objects.filter(book_owner=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        # Get the base context data from the parent class
+        context = super().get_context_data(**kwargs)
+
+        top_book = Book.objects.filter(book_owner=self.request.user).first()
+        context["top_book"] = top_book
+        print(top_book)
+        return context
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
@@ -35,6 +45,7 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
                         'reading/partials/reading_page_content_partial.html',
                         {'book_list': Book.objects.filter(book_owner=self.request.user)})
 
+@login_required
 def add_book(request):
     title = request.POST.get('book-title')
     author = request.POST.get('book-author')
@@ -50,17 +61,20 @@ def add_book(request):
     return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_list})
 
 @require_http_methods(['DELETE'])
+@login_required
 def delete_book(request, pk):
     Book.objects.filter(pk=pk).delete()
     book_list = Book.objects.filter(book_owner=request.user)
     return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_list})
 
+@login_required
 def book_search(request):
     search_text = request.POST.get("search")
     book_search_list = Book.objects.filter( Q(title__icontains=search_text) | Q(author__icontains=search_text) ).filter(book_owner=request.user)
 
     return render(request, 'reading/partials/book_list_partial.html', {'book_list': book_search_list})
 
+@login_required
 def book_sort(request):
     book_order = request.POST.getlist("book_order")
     index = 1
@@ -70,4 +84,9 @@ def book_sort(request):
         this_book.save()
         index += 1
     
-    return render(request, "reading/partials/book_list_partial.html", {"book_list": Book.objects.filter(book_owner=request.user)})
+    context = {
+        "top_book": Book.objects.filter(book_owner=request.user).first(),
+        "book_list": Book.objects.filter(book_owner=request.user),
+    }
+    
+    return render(request, "reading/partials/book_list_partial.html", context)

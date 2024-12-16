@@ -1,15 +1,31 @@
 
 {% block content %}
 
+    {% if not book_list  %}
+
+    <div class="d-flex justify-content-center align-items-center">
+      <p class="lead">Add some books to your list first.</p>
+    </div>
+
+    {% else %}
+
     <div class="d-flex justify-content-center align-items-center">
       <div class="card" style="width: 18rem;">
-          {% comment %} <img src="..." class="card-img-top" alt="..."> {% endcomment %}
+        {% if top_book.cover  %}
+        <div style="display: flex; justify-content: center;">
+            <img class="bookcover mb-2" src="{{ top_book.cover.url}}" alt="{{ top_book.title }}" style="width: 60%;">
+        </div>
+        {% else %}
+        <h3>No book cover yet has been uploaded yet.</h3>
+        {% endif %}
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="h3"><b>{{top_book.title}}</b></p>
+            <p class="lead">{{top_book.author}}</p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
     </div>
+
+    {% endif %}
 
 {% endblock content %}
