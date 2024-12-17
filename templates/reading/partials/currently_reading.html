@@ -16,12 +16,12 @@
             <img class="bookcover mb-2" src="{{ top_book.cover.url}}" alt="{{ top_book.title }}" style="width: 60%;">
         </div>
         {% else %}
-        <h3>No book cover yet has been uploaded yet.</h3>
+        <h3>No book cover has been uploaded yet.</h3>
         {% endif %}
           <div class="card-body">
             <p class="h3"><b>{{top_book.title}}</b></p>
             <p class="lead">{{top_book.author}}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            {% comment %} <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
           </div>
         </div>
     </div>
