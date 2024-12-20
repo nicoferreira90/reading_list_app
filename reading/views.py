@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, TemplateView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book
 from .forms import BookForm
 
+class AboutPageView(TemplateView):
+    template_name = "reading/about.html"
 
 class ReadingListView(LoginRequiredMixin, ListView):
     model = Book
@@ -37,7 +39,10 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
     context_object_name = "book"
 
     def form_valid(self, form):
-        # Save the updated book information
+        if not self.request.FILES.get('cover'):
+            form.instance.cover = self.get_object().cover
+        else:
+            form.instance.cover = self.request.FILES.get('cover')
         form.save()
         print("form valid")
         
