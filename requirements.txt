@@ -7,3 +7,7 @@ djangorestframework==3.15.2
 pillow==11.0.0
 sqlparse==0.5.2
 tzdata==2024.2
+psycopg[binary,pool]
+gunicorn
+environs[django]==9.5.0
+whitenoise
