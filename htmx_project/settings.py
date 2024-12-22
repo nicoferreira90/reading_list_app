@@ -17,7 +17,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = [".fly.io", "localhost", "127.0.0.1", "0.0.0.0:8000",]
+ALLOWED_HOSTS = [".fly.dev", "localhost", "127.0.0.1", "0.0.0.0:8000",]
 
 
 # Application definition
@@ -171,6 +171,6 @@ CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com", "https://*fly.io",]
+CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com", "https://*fly.dev",]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
