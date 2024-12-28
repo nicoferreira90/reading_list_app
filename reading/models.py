@@ -9,6 +9,11 @@ class Book(models.Model):
     order = models.PositiveSmallIntegerField()
     cover = models.ImageField(upload_to="covers/", blank=True, null=True)
 
+    # this are new
+    finished = models.BooleanField(default=False)
+    finished_date = models.DateField(blank=True, null=True)
+    review = models.TextField(blank=True, null=True)
+
     class Meta:
         ordering = ['order']
 

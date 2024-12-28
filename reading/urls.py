@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import ReadingListView, BookUpdateView, add_book, delete_book, book_search, book_sort
+from .views import ReadingListView, FinishedBookListView, BookUpdateView, add_book, delete_book, book_search, book_sort
 
 urlpatterns = [
     path("", ReadingListView.as_view(), name="reading_page"),
+    path("reviews/", FinishedBookListView.as_view(), name="review_page"),
 ]
 
 htmx_urlpatterns = [

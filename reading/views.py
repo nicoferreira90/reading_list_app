@@ -20,16 +20,27 @@ class ReadingListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """Override the get_queryset method so that ReadingListView only displays books registered by the current user."""
-        return Book.objects.filter(book_owner=self.request.user)
+        return Book.objects.filter(book_owner=self.request.user).filter(finished=False)
     
     def get_context_data(self, **kwargs):
         # Get the base context data from the parent class
         context = super().get_context_data(**kwargs)
 
-        top_book = Book.objects.filter(book_owner=self.request.user).first()
+        top_book = Book.objects.filter(book_owner=self.request.user).filter(finished=False).first()
         context["top_book"] = top_book
         print(top_book)
         return context
+
+class FinishedBookListView(LoginRequiredMixin, ListView):
+    model = Book
+    template_name = "reading/review_page.html"
+    context_object_name = "finished_book_list"
+    login_url = "account_login"
+
+    def get_queryset(self):
+        """Override the get_queryset method so that ReadingListView only displays books registered by the current user."""
+        return Book.objects.filter(book_owner=self.request.user).filter(finished=True)
+
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
