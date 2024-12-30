@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from datetime import datetime
+
+from .sorting_functions import reorder_books
 from .models import Book
 from .forms import BookForm
 
@@ -60,8 +63,9 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
         
         return render(self.request,
                         'reading/partials/reading_page_content_partial.html',
-                        {'book_list': Book.objects.filter(book_owner=self.request.user),
-                         "top_book": Book.objects.filter(book_owner=self.request.user).first(),})
+                        {'book_list': Book.objects.filter(book_owner=self.request.user).filter(finished=False),
+                         "top_book": Book.objects.filter(book_owner=self.request.user).first(),
+                         "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),})
 
 @login_required
 def add_book(request):
@@ -76,7 +80,7 @@ def add_book(request):
     Book.objects.create(title=title, author=author, book_owner=request.user, order=new_book_order)
 
     context = {
-        "top_book": Book.objects.filter(book_owner=request.user).first(),
+        "top_book": Book.objects.filter(book_owner=request.user).filter(finished=False).first(),
         "book_list": Book.objects.filter(book_owner=request.user).filter(finished=False),
         "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
     }
@@ -91,13 +95,10 @@ def delete_book(request, pk):
     # here we proceed to re-order the remaining books from 1 to n
     index = 1
     book_list = Book.objects.filter(book_owner=request.user).filter(finished=False)
-    for book in book_list:
-        book.order = index
-        book.save()
-        index += 1
+    book_list = reorder_books(book_list)
     
     context = {
-        "top_book": Book.objects.filter(book_owner=request.user).first(),
+        "top_book": Book.objects.filter(book_owner=request.user).filter(finished=False).first(),
         "book_list": book_list,
         "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
     }
@@ -123,7 +124,25 @@ def book_sort(request):
             index += 1
     
     context = {
-        "top_book": Book.objects.filter(book_owner=request.user).first(),
+        "top_book": Book.objects.filter(book_owner=request.user).filter(finished=False).first(),
+        "book_list": Book.objects.filter(book_owner=request.user).filter(finished=False),
+        "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
+    }
+    
+    return render(request, "reading/partials/reading_page_content_partial.html", context)
+
+@login_required
+def top_book_completed(request, pk):
+    top_book = Book.objects.get(pk=pk)
+    top_book.finished = True
+    top_book.finished_date = datetime.now()
+    top_book.save()
+
+    book_list = Book.objects.filter(book_owner=request.user).filter(finished=False)
+    book_list = reorder_books(book_list)
+
+    context = {
+        "top_book": Book.objects.filter(book_owner=request.user).filter(finished=False).first(),
         "book_list": Book.objects.filter(book_owner=request.user).filter(finished=False),
         "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
     }
