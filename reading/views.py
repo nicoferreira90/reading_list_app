@@ -28,6 +28,7 @@ class ReadingListView(LoginRequiredMixin, ListView):
 
         top_book = Book.objects.filter(book_owner=self.request.user).filter(finished=False).first()
         context["top_book"] = top_book
+        context["finished_book_list"] = Book.objects.filter(book_owner=self.request.user).filter(finished=True).order_by('-finished_date')
         print(top_book)
         return context
 
@@ -68,7 +69,7 @@ def add_book(request):
     author = request.POST.get('book-author')
 
     if request.user.books:
-        new_book_order = len(Book.objects.filter(book_owner=request.user))+1
+        new_book_order = len(Book.objects.filter(book_owner=request.user).filter(finished=False))+1
     else:
         new_book_order = 1
 
@@ -76,7 +77,8 @@ def add_book(request):
 
     context = {
         "top_book": Book.objects.filter(book_owner=request.user).first(),
-        "book_list": Book.objects.filter(book_owner=request.user),
+        "book_list": Book.objects.filter(book_owner=request.user).filter(finished=False),
+        "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
     }
     
     return render(request, "reading/partials/reading_page_content_partial.html", context)
@@ -88,7 +90,7 @@ def delete_book(request, pk):
 
     # here we proceed to re-order the remaining books from 1 to n
     index = 1
-    book_list = Book.objects.filter(book_owner=request.user)
+    book_list = Book.objects.filter(book_owner=request.user).filter(finished=False)
     for book in book_list:
         book.order = index
         book.save()
@@ -97,6 +99,7 @@ def delete_book(request, pk):
     context = {
         "top_book": Book.objects.filter(book_owner=request.user).first(),
         "book_list": book_list,
+        "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
     }
     
     return render(request, "reading/partials/reading_page_content_partial.html", context)
@@ -114,13 +117,15 @@ def book_sort(request):
     index = 1
     for book in book_order:
         this_book = Book.objects.get(pk=book)
-        this_book.order = index
-        this_book.save()
-        index += 1
+        if this_book.finished == False:
+            this_book.order = index
+            this_book.save()
+            index += 1
     
     context = {
         "top_book": Book.objects.filter(book_owner=request.user).first(),
-        "book_list": Book.objects.filter(book_owner=request.user),
+        "book_list": Book.objects.filter(book_owner=request.user).filter(finished=False),
+        "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
     }
     
     return render(request, "reading/partials/reading_page_content_partial.html", context)
