@@ -1,4 +1,3 @@
-
 def reorder_books(book_list):
     index = 1
     for book in book_list:
