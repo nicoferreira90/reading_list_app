@@ -4,7 +4,9 @@
 
     {% for book in book_list %}
 
-    <div>
+    <div x-show="search === '' 
+    || '{{ book.title }}'.toLowerCase().includes(search.toLowerCase()) 
+    || '{{ book.author }}'.toLowerCase().includes(search.toLowerCase())" >
         <input type='hidden' name='book_order' value="{{ book.pk }}"/>
         <div class="card bg-light mb-2" style="width: 100%;">
             <div class="card-body">

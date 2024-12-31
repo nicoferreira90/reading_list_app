@@ -83,7 +83,9 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
                 "book_list": Book.objects.filter(book_owner=self.request.user).filter(
                     finished=False
                 ),
-                "top_book": Book.objects.filter(book_owner=self.request.user).first(),
+                "top_book": Book.objects.filter(book_owner=self.request.user)
+                .filter(finished=False)
+                .first(),
                 "finished_book_list": Book.objects.filter(book_owner=self.request.user)
                 .filter(finished=True)
                 .order_by("-finished_date"),
