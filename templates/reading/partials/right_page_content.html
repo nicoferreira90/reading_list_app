@@ -12,47 +12,58 @@
     </form>
 </div>
 
-<h1 class="m-4">Currently Reading...</h1>
+    <div class="row">
 
-{% include "reading/partials/currently_reading.html" %}
+        <div class="col">
 
-<h1 class="m-4">Last Book finished...</h1>
+        <h2 class="m-4">Currently Reading:</h2>
+
+        {% include "reading/partials/currently_reading.html" %}
+
+        </div>
+
+        <div class="col">
+
+        <h2 class="m-4">Last Book finished:</h2>
 
 
-<div style="width: 70%; margin: 0 auto;">
-    {% if finished_book_list %}
+        <div style="width: 80%; margin: 0 auto;">
+            {% if finished_book_list %}
 
-    <div class="card bg-light mb-2" style="width: 100%;">
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <p class="lead"><b>{{finished_book_list.0.title}}</b></p>
-                    <p class="lead">{{finished_book_list.0.author}}</p>
-                    {% if finished_book_list.0.rating %}
-                        <p class="lead"><i>"{{finished_book_list.0.rating}}"</i></p>
-                    {% else %}
-                        <p class="lead">No rating has been added yet.</p>
-                    {% endif %}
-                    <p class="lead">{{finished_book_list.0.finished_date|date:"d M Y"}}</p>
-                </div>
-                <div class="col">
-                    {% if finished_book_list.0.cover %}
-                    <div class="d-flex justify-content-center align-items-center">
-                        <img class="bookcover mb-2" src="{{ finished_book_list.0.cover.url}}" alt="{{ finished_book_list.0.title }}" style="width: 60%;">
+            <div class="card bg-light mb-2" style="width: 100%;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <p class="lead"><b>{{finished_book_list.0.title}}</b></p>
+                            <p class="lead">{{finished_book_list.0.author}}</p>
+                            {% if finished_book_list.0.rating %}
+                                <p class="lead"><i>"{{finished_book_list.0.rating}}"</i></p>
+                            {% else %}
+                                <p class="lead">No rating has been added yet.</p>
+                            {% endif %}
+                            <p class="lead">{{finished_book_list.0.finished_date|date:"d M Y"}}</p>
+                        </div>
+                        <div class="col">
+                            {% if finished_book_list.0.cover %}
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img class="bookcover mb-2" src="{{ finished_book_list.0.cover.url}}" alt="{{ finished_book_list.0.title }}" style="width: 90%;">
+                            </div>
+                            {% else %}
+                            <p class="lead">No book cover has been uploaded yet.</p>
+                            {% endif %}
+                        </div>
                     </div>
-                    {% else %}
-                    <p class="lead">No book cover has been uploaded yet.</p>
-                    {% endif %}
                 </div>
             </div>
-        </div>
-    </div>
 
-    {% else %}
-    <div class="alert alert-dismissible alert-info" style="text-align: center; border-radius: 0;">
-        You haven't finished any books yet.
+            {% else %}
+            <div class="alert alert-dismissible alert-info" style="text-align: center; border-radius: 0;">
+                You haven't finished any books yet.
+            </div>
+            {% endif %}
+        </div>
+
     </div>
-    {% endif %}
 </div>
   
   
