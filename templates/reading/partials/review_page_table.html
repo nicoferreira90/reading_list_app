@@ -1,16 +1,18 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Rating</th>
-        <th scope="col">Date Finished</th>
-        <th scope="col"></th>
+        <th scope="col" class="col-sm-3">Title</th>
+        <th scope="col" class="col-sm-3">Author</th>
+        <th scope="col" class="col-sm-3">Rating</th>
+        <th scope="col" class="col-sm-3">Date Finished</th>
+        <th scope="col" class="col-sm-2"></th>
     </tr>
     </thead>
     <tbody>
     {% for book in finished_book_list %}
-    <tr>
+    <tr  x-show="search === '' 
+    || '{{ book.title }}'.toLowerCase().includes(search.toLowerCase()) 
+    || '{{ book.author }}'.toLowerCase().includes(search.toLowerCase())" >
         <td class="wide-column">{{book.title}}</td>
         <td class="wide-column">{{book.author}}</td>
         <td class="wide-column">{{book.rating}}</td>

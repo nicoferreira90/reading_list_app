@@ -4,17 +4,29 @@
 
 <div class="p-2" style="width: 95%; margin: auto;">
     
-    <h1 class="my-4 text-start">My Completed Books</h1>
+    <div x-data="{search: ''}">
 
-    <p class="lead">Here you can find a list of all the books you have completed. 
-        You can review the details of each book, including the title, author, rating, and the date you finished reading it. 
-        Feel free to edit or delete any book from your completed list.</p>
-    
-    <p class="lead">Books have no rating by default. It's up to you to add one!</p>
+            
+        <h1 class="my-4 text-start">My Completed Books</h1>
+
+        <p class="lead">Here you can find a list of all the books you have completed. 
+            You can review the details of each book, including the title, author, rating, and the date you finished reading it. 
+            Feel free to edit or delete any book from your completed list.</p>
+        
+        <p class="lead">Books have no rating by default. It's up to you to add one!</p>
+
+        <div class="d-grid gap-2 mb-4" style="width: 60%;">
+            <div class="d-flex align-items-center">
+                <label for="inputDefault" class="lead me-2">Search:</label>
+                <input type="text" class="form-control" placeholder="search title or author..." id="inputDefault" x-model="search">
+            </div>
+        </div>
 
 
-    <div id="review_page_table">
-        {% include 'reading/partials/review_page_table.html' %}
+        <div id="review_page_table">
+            {% include 'reading/partials/review_page_table.html' %}
+        </div>
+
     </div>
 
 </div>
