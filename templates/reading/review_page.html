@@ -29,7 +29,7 @@
             <td>{{book.title}}</td>
             <td>{{book.author}}</td>
             <td>{{book.review}}</td>
-            <td>{{book.finished_date}}</td>
+            <td>{{book.finished_date|date:"d M Y"}}</td>
         </tr>
         {% endfor %}
         </tbody>

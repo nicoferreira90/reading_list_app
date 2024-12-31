@@ -28,8 +28,12 @@
                 <div class="col">
                     <p class="lead"><b>{{finished_book_list.0.title}}</b></p>
                     <p class="lead">{{finished_book_list.0.author}}</p>
-                    <p class="lead"><i>"{{finished_book_list.0.review}}"</i></p>
-                    <p class="lead">{{finished_book_list.0.finished_date}}</p>
+                    {% if finised_book_list.0.review %}
+                        <p class="lead"><i>"{{finished_book_list.0.review}}"</i></p>
+                    {% else %}
+                        <p class="lead">No review has been written yet.</p>
+                    {% endif %}
+                    <p class="lead">{{finished_book_list.0.finished_date|date:"d M Y"}}</p>
                 </div>
                 <div class="col">
                     {% if finished_book_list.0.cover %}

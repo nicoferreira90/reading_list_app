@@ -11,7 +11,7 @@ class Book(models.Model):
 
     # this are new
     finished = models.BooleanField(default=False)
-    finished_date = models.DateField(blank=True, null=True)
+    finished_date = models.DateTimeField(blank=True, null=True)
     review = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -19,4 +19,3 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
-    

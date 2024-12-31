@@ -65,7 +65,7 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
                         'reading/partials/reading_page_content_partial.html',
                         {'book_list': Book.objects.filter(book_owner=self.request.user).filter(finished=False),
                          "top_book": Book.objects.filter(book_owner=self.request.user).first(),
-                         "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),})
+                         "finished_book_list": Book.objects.filter(book_owner=self.request.user).filter(finished=True).order_by('-finished_date'),})
 
 @login_required
 def add_book(request):
