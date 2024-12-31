@@ -1,0 +1,34 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Rating</th>
+        <th scope="col">Date Finished</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for book in finished_book_list %}
+    <tr>
+        <td class="wide-column">{{book.title}}</td>
+        <td class="wide-column">{{book.author}}</td>
+        <td class="wide-column">{{book.rating}}</td>
+        <td class="wide-column">{{book.finished_date|date:"d M Y"}}</td>
+        <td class="button-column">
+            <div class="row" style="height: 50%;">
+                <div class="col d-flex align-items-center">
+                    <button hx-get="{% url "edit_finished_book" book.pk %}" hx-target="#review_page_table" hx-push-url="/finished_book_edit/{{book.title}}" class="btn btn-primary" style="width: 50px; height: 40px; padding: 0;">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button hx-delete="{% url 'delete_completed_book' book.pk %}" hx-target="#review_page_table" hx-confirm="Are you sure you wish to delete this book?"
+                            type="submit" class="btn btn-danger" style="width: 50px; height: 40px; padding: 0; margin-left: 5px;">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -10,7 +10,7 @@ from datetime import datetime
 
 from .sorting_functions import reorder_books
 from .models import Book
-from .forms import BookForm
+from .forms import BookForm, FinishedBookEditForm
 
 class AboutPageView(TemplateView):
     template_name = "reading/about.html"
@@ -43,7 +43,7 @@ class FinishedBookListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """Override the get_queryset method so that ReadingListView only displays books registered by the current user."""
-        return Book.objects.filter(book_owner=self.request.user).filter(finished=True)
+        return Book.objects.filter(book_owner=self.request.user).filter(finished=True).order_by('-finished_date')
 
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):
@@ -66,6 +66,26 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
                         {'book_list': Book.objects.filter(book_owner=self.request.user).filter(finished=False),
                          "top_book": Book.objects.filter(book_owner=self.request.user).first(),
                          "finished_book_list": Book.objects.filter(book_owner=self.request.user).filter(finished=True).order_by('-finished_date'),})
+
+class EditFinishedBookView(LoginRequiredMixin, UpdateView):
+    model = Book
+    form_class = FinishedBookEditForm
+    template_name = "reading/partials/edit_finished_book.html"
+    login_url = "account_login"
+    context_object_name = "book"
+
+    def form_valid(self, form):
+        form.save()
+
+        context = {
+
+        "finished_book_list": Book.objects.filter(book_owner=self.request.user).filter(finished=True).order_by('-finished_date'),
+    }
+
+        return render(self.request, "reading/partials/review_page_table.html", context)
+    
+
+
 
 @login_required
 def add_book(request):
@@ -93,7 +113,6 @@ def delete_book(request, pk):
     Book.objects.filter(pk=pk).delete()
 
     # here we proceed to re-order the remaining books from 1 to n
-    index = 1
     book_list = Book.objects.filter(book_owner=request.user).filter(finished=False)
     book_list = reorder_books(book_list)
     
@@ -148,3 +167,16 @@ def top_book_completed(request, pk):
     }
     
     return render(request, "reading/partials/reading_page_content_partial.html", context)
+
+@require_http_methods(['DELETE'])
+@login_required
+def delete_completed_book(request, pk):
+
+    Book.objects.filter(pk=pk).delete()
+
+    context = {
+
+        "finished_book_list": Book.objects.filter(book_owner=request.user).filter(finished=True).order_by('-finished_date'),
+    }
+    
+    return render(request, "reading/partials/review_page_table.html", context)

@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+
+<form hx-post="{% url "edit_finished_book" book.pk %}" hx-target="#review_page_table" hx-push-url="/" enctype="multipart/form-data" method="post" style="margin-top: 0;">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary border border-dark" type="submit" value="Update">
+</form>
