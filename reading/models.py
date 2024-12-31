@@ -12,7 +12,7 @@ class Book(models.Model):
     # this are new
     finished = models.BooleanField(default=False)
     finished_date = models.DateTimeField(blank=True, null=True)
-    review = models.TextField(blank=True, null=True)
+    rating = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         ordering = ['order']

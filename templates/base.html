@@ -78,7 +78,7 @@
               </li>
             </ul>
             {% if user.is_authenticated %}
-                <div class="dropdown text-end">
+                <div class="ms-2" class="dropdown text-end">
                     <a href="#" class="d-block text-decoration-none dropdown-toggle"
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                         hello, {{ user.username }}!
@@ -96,7 +96,7 @@
                     </ul>
                 </div>
               {% else %}
-                <div class="auth-buttons">
+                <div class="ms-2" class="auth-buttons">
                     <a href="{% url 'account_login' %}" class="btn btn-info me-2 border border-dark">Log In</a>
                     <a href="{% url 'account_signup' %}" class="btn btn-success border border-dark">Sign Up</a>
                 </div>
