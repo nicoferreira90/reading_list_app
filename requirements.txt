@@ -9,3 +9,7 @@ sqlparse==0.5.2
 tzdata==2024.2
 black
 django-debug-toolbar
+psycopg2-binary
+gunicorn
+environs[django]==9.5.0
+whitenoise==6.1.0
