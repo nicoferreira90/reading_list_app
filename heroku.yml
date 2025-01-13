@@ -1,5 +1,4 @@
 setup:
-  addons:
 build:
   docker:
     web: Dockerfile
