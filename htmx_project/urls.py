@@ -7,7 +7,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from reading.views import AboutPageView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("kbzon/", admin.site.urls),
     path("", include("reading.urls")),
     path("accounts/", include("allauth.urls")),
     path("about/", AboutPageView.as_view(), name="about_page"),
