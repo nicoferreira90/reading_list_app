@@ -85,9 +85,7 @@ WSGI_APPLICATION = "htmx_project.wsgi.application"
 
 
 DATABASES = {
-    "default": env.dj_db_url(
-        "ATTACHED_DB_URL", default="postgres://postgres@db/postgres"
-    )
+    "default": env.dj_db_url("DATABASE_URL", default="postgres://postgres@db/postgres")
 }
 
 
