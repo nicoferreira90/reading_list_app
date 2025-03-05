@@ -1,7 +1,5 @@
 I created this Django project to test the dynamic re-rendering capabilities of HTMX, along with some Alpine.js sprinkled in. The neat thing about the main reading page is that it works essentially as a SPA, swapping HTML in and out without ever needing to refresh the page.
 
-https://rocky-brushlands-63443-8f15f4825d2d.herokuapp.com
-
 &nbsp;
 &nbsp;
 
